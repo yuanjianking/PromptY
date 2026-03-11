@@ -1,0 +1,892 @@
+/* PromptWorkbench.css - 完整优化版 */
+
+/* ---------- 全局变量与重置 ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-primary: #f6f9fc;
+  --bg-card: #ffffff;
+  --text-primary: #1a2b3e;
+  --text-secondary: #4a5b6e;
+  --text-tertiary: #7b8a9e;
+  --border-light: #e2e9f2;
+  --border-focus: #7c9bcf;
+  --accent-blue: #2b5f9e;
+  --accent-light: #eef3fc;
+  --accent-soft: #d9e6f5;
+  --badge-required: #cf3e3e;
+  --badge-optional: #6b7b8e;
+  --badge-partial: #d18f2c;
+  --shadow-card: 0 12px 30px rgba(0, 20, 40, 0.06), 0 4px 8px rgba(0, 10, 20, 0.02);
+  --shadow-hover: 0 20px 35px rgba(0, 30, 60, 0.1);
+  --radius-main: 20px;
+  --radius-inner: 12px;
+  --transition: all 0.2s ease;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+/* ---------- 主容器 ---------- */
+.prompt-workbench {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ---------- 头部 ---------- */
+.workbench-header {
+  margin-bottom: 8px;
+  padding-left: 8px;
+}
+
+.workbench-header h1 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  background: linear-gradient(145deg, #1e3c5f, #2b5f9e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 6px;
+}
+
+.header-sub {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  border-left: 4px solid var(--accent-blue);
+  padding-left: 16px;
+}
+
+/* ---------- 卡片通用 ---------- */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-main);
+  padding: 28px 32px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(2px);
+  transition: var(--transition);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-hover);
+}
+
+/* 卡片标题行 */
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--accent-soft);
+}
+
+.card-title h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.step-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--accent-blue);
+  color: white;
+  font-weight: 600;
+  font-size: 1.2rem;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(43, 95, 158, 0.2);
+}
+
+.subtitle {
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-tertiary);
+  margin-left: 4px;
+}
+
+/* 可折叠卡片标题 */
+.card-title.collapsible {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: var(--transition);
+}
+
+.card-title.collapsible:hover {
+  background: var(--accent-light);
+  margin: -8px -8px 16px -8px;
+  padding: 8px 16px;
+  border-radius: 50px;
+}
+
+.collapse-btn {
+  background: white;
+  border: 1px solid var(--border-light);
+  border-radius: 30px;
+  padding: 6px 18px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--accent-blue);
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  white-space: nowrap;
+}
+
+.collapse-btn:hover {
+  background: var(--accent-blue);
+  color: white;
+  border-color: var(--accent-blue);
+}
+
+/* ---------- 标签标记 ---------- */
+.required {
+  background: var(--badge-required);
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 30px;
+  margin-left: 8px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.optional {
+  background: var(--badge-optional);
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 30px;
+  margin-left: 8px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.badge.partial {
+  background: #fef3e2;
+  color: var(--badge-partial);
+  border: 1px solid #f5dbb1;
+}
+
+/* ---------- 响应式网格系统 ---------- */
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-top: 12px;
+}
+
+/* 根据屏幕宽度自动调整列数 */
+@media (max-width: 1200px) {
+  .section-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .section-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.section-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0; /* 防止溢出 */
+}
+
+.section-group h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  letter-spacing: 0.2px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* 紧凑行用于多个输入并排 - 响应式 */
+.compact-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 500px) {
+  .compact-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+/* ---------- 输入框统一风格 ---------- */
+textarea,
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input:not([type="checkbox"]):not([type="radio"]) {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-inner);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: var(--transition);
+  background: #ffffff;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 4px rgba(43, 95, 158, 0.08);
+  background: white;
+}
+
+/* 占位符样式 */
+::placeholder {
+  color: #a0b3c9;
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+/* 输出项输入框样式 - 只读状态 */
+.output-input {
+  background-color: #f8faff !important;
+  border-color: #d0ddeb !important;
+  color: #1e3a5f !important;
+  cursor: default !important;
+}
+
+.output-input:focus {
+  outline: none !important;
+  border-color: #d0ddeb !important;
+  box-shadow: none !important;
+}
+
+/* 复选框样式 */
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  accent-color: var(--accent-blue);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+/* 子组折叠 */
+.subgroup {
+  margin-left: 8px;
+  padding: 16px 0 8px 20px;
+  border-left: 3px solid var(--accent-soft);
+  background: #f9fbfe;
+  border-radius: 0 16px 16px 0;
+}
+
+.subgroup summary {
+  font-weight: 500;
+  color: var(--accent-blue);
+  cursor: pointer;
+  padding: 4px 0;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+}
+
+.subgroup[open] {
+  padding-bottom: 16px;
+}
+
+/* 评估摘要行 */
+.assessment-summary {
+  margin-bottom: 20px;
+}
+
+/* ---------- 全局参数区域 ---------- */
+.global-params {
+  background: var(--accent-light);
+  padding: 24px;
+  border-radius: var(--radius-inner);
+  margin: 28px 0 20px;
+}
+
+.global-params h3 {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: var(--accent-blue);
+  font-weight: 600;
+}
+
+.param-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1000px) {
+  .param-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .param-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.param-row input {
+  background: white;
+  width: 100%;
+}
+
+/* ---------- 策略网格 ---------- */
+.strategy-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 16px;
+}
+
+@media (max-width: 1200px) {
+  .strategy-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .strategy-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.strategy-card {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 18px;
+  padding: 24px;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+}
+
+.strategy-card:hover {
+  border-color: var(--accent-blue);
+  box-shadow: 0 12px 24px rgba(43, 95, 158, 0.08);
+  transform: translateY(-2px);
+}
+
+.strategy-card h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--accent-soft);
+  padding-bottom: 10px;
+}
+
+.strategy-card.optional-card {
+  background: #fafbfc;
+  border-style: dashed;
+}
+
+/* ---------- 指标网格 ---------- */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 16px;
+}
+
+@media (max-width: 700px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.span-2 {
+  grid-column: span 2;
+}
+
+@media (max-width: 700px) {
+  .span-2 {
+    grid-column: span 1;
+  }
+}
+
+/* ---------- 带标签的字段容器 ---------- */
+.field-with-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.field-with-label label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-left: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* 确保输入框占满宽度 */
+.field-with-label input,
+.field-with-label textarea {
+  width: 100%;
+}
+
+/* 输出项的标签样式 */
+.field-with-label .output-input + label {
+  color: var(--accent-blue);
+}
+
+/* 小节标题 */
+.section-subtitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 32px 0 20px 0;
+  padding-left: 12px;
+  border-left: 4px solid var(--accent-blue);
+}
+
+.section-subtitle:first-of-type {
+  margin-top: 8px;
+}
+
+/* ---------- 用户输入层底部按钮区域 ---------- */
+.input-section-footer {
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 2px dashed var(--border-light);
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.submit-hint {
+  color: var(--text-tertiary);
+  font-size: 0.95rem;
+  font-style: italic;
+  flex: 1;
+  min-width: 250px;
+}
+
+/* 提交按钮样式 */
+.input-section .submit-btn {
+  background: linear-gradient(135deg, #1e3c5f, #2b5f9e);
+  color: white;
+  border: none;
+  border-radius: 40px;
+  padding: 16px 48px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 8px 20px rgba(43, 95, 158, 0.25);
+  border: 1px solid rgba(255,255,255,0.2);
+  min-width: 240px;
+  white-space: nowrap;
+}
+
+.input-section .submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(43, 95, 158, 0.35);
+  background: linear-gradient(135deg, #234b77, #326eb3);
+}
+
+.input-section .submit-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(43, 95, 158, 0.25);
+}
+
+@media (max-width: 700px) {
+  .input-section-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .input-section .submit-btn {
+    width: 100%;
+  }
+
+  .submit-hint {
+    text-align: center;
+  }
+}
+
+/* 确保用户输入层卡片有足够的底部内边距 */
+.input-section {
+  padding-bottom: 32px;
+}
+
+/* 策略卡片内的字段间距 */
+.strategy-card .field-with-label {
+  margin-bottom: 10px;
+}
+
+/* 脚注 */
+.footer-note {
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: 0.9rem;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px dashed var(--border-light);
+  letter-spacing: 0.2px;
+}
+
+/* 响应式调整 - 大屏幕优化 */
+@media (min-width: 1600px) {
+  .prompt-workbench {
+    max-width: 1800px;
+  }
+
+  .section-grid {
+    gap: 32px;
+  }
+
+  .strategy-grid {
+    gap: 28px;
+  }
+}
+
+/* 响应式调整 - 中等屏幕 */
+@media (max-width: 1400px) and (min-width: 1201px) {
+  .section-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 超小屏幕优化 */
+@media (max-width: 400px) {
+  .prompt-workbench {
+    padding: 16px 12px;
+  }
+
+  .card {
+    padding: 20px 16px;
+  }
+
+  .card-title h2 {
+    font-size: 1.2rem;
+  }
+
+  .step-badge {
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+  }
+
+  .field-with-label label {
+    font-size: 0.8rem;
+  }
+
+  textarea, input {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+/* ========== 信息充分性评估区域优化 ========== */
+
+/* 评估维度 - 使用4列网格 */
+.assessment-dimensions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 1200px) {
+  .assessment-dimensions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .assessment-dimensions-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 信息缺失清单和生成决策并排 */
+.assessment-missing-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 900px) {
+  .assessment-missing-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* 信息缺失清单的textarea高度 */
+.assessment-missing-grid textarea {
+  min-height: 140px;
+}
+
+/* ========== 事前分析区域优化 ========== */
+
+/* 事前分析的每个子部分 - 使用网格布局 */
+.pre-analysis-section {
+  margin-bottom: 32px;
+}
+
+.pre-analysis-section:last-child {
+  margin-bottom: 0;
+}
+
+.pre-analysis-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 12px;
+}
+
+@media (max-width: 1400px) {
+  .pre-analysis-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .pre-analysis-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 风险预测特殊处理 - 5个字段可能需要调整 */
+.pre-analysis-grid.risks-grid {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+@media (max-width: 1400px) {
+  .pre-analysis-grid.risks-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1000px) {
+  .pre-analysis-grid.risks-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .pre-analysis-grid.risks-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========== 事后解释器区域优化 ========== */
+
+/* 事后解释器的主网格 */
+.post-analysis-main-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  margin-top: 16px;
+}
+
+@media (max-width: 1200px) {
+  .post-analysis-main-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+/* 事后解释器的每个子部分内部网格 */
+.post-analysis-inner-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 12px;
+}
+
+@media (max-width: 700px) {
+  .post-analysis-inner-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 偏差归因特殊处理 - 可能只需要单列 */
+.post-analysis-attribution-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+/* 对照解释区域使用2列布局 */
+.post-analysis-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 12px;
+}
+
+@media (max-width: 1000px) {
+  .post-analysis-comparison-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .post-analysis-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========== 工具类 ========== */
+
+/* 确保所有字段容器在网格中正确显示 */
+.grid-field {
+  width: 100%;
+}
+
+/* 移除多余的边距 */
+.card .section-subtitle + .assessment-dimensions-grid,
+.card .section-subtitle + .assessment-missing-grid,
+.card .section-subtitle + .pre-analysis-grid,
+.card .section-subtitle + .post-analysis-main-grid {
+  margin-top: 8px;
+}
+
+/* 确保textarea在网格中不会溢出 */
+.grid-field textarea {
+  width: 100%;
+  min-height: 100px;
+}
+
+/* 小屏幕上的间距调整 */
+@media (max-width: 700px) {
+  .assessment-dimensions-grid,
+  .assessment-missing-grid,
+  .pre-analysis-grid,
+  .post-analysis-main-grid,
+  .post-analysis-inner-grid,
+  .post-analysis-comparison-grid {
+    gap: 16px;
+  }
+
+  .pre-analysis-section {
+    margin-bottom: 24px;
+  }
+}
+
+/* 简单API配置样式 */
+.simple-api-config {
+  position: relative;
+  margin-left: auto;
+}
+
+.api-config-btn {
+  padding: 8px 16px;
+  background: white;
+  border: 1px solid #e2e9f2;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.api-config-simple {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 300px;
+  background: white;
+  border: 1px solid #e2e9f2;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.api-config-simple h4 {
+  margin: 0 0 12px 0;
+}
+
+.api-config-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.api-config-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.api-config-actions button:first-child {
+  background: #2b5f9e;
+  color: white;
+}
+
+.api-config-actions button:last-child {
+  background: #f0f0f0;
+}

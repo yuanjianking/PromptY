@@ -1,12 +1,8 @@
 
 import React from 'react';
-
+import PromptWorkbench from "./pages/PromptWorkbench";
 const App: React.FC = () => {
-  return (
-    <div className="App">
-      <h1>Hello, World!</h1>
-    </div>
-  );
+  return  <PromptWorkbench />;
 };
 
 export default App;
