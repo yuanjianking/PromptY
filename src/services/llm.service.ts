@@ -3,7 +3,7 @@
  * 完全依赖页面传入的配置
  */
 
-import { LLMConfig, LLMRequestOptions, LLMStreamChunk } from '../types/prompt.types';
+import type { LLMConfig, LLMRequestOptions, LLMStreamChunk } from '../types/prompt.types';
 
 // 默认配置（空，完全由页面传入）
 const DEFAULT_CONFIG: LLMConfig = {

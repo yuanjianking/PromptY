@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./PromptWorkbench.css";
 import { useOptimization } from '../hooks/useOptimization';
 import { setAPIConfig } from "../services/llm.service";

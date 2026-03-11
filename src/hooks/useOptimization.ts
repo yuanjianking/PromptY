@@ -4,7 +4,7 @@
  */
 
 import { useState, useCallback, useRef } from 'react';
-import {
+import type {
   UserInput,
   SufficiencyOutput,
   PreAnalysisOutput,
@@ -14,10 +14,10 @@ import {
   LoadingState,
   ErrorState,
   CollapseState,
-  DEFAULT_USER_INPUT
-} from '../types/prompt.types';
 
-import { runOptimization as runOptimizationService, OptimizationResult } from '../services/optimization.service';
+} from '../types/prompt.types';
+import { DEFAULT_USER_INPUT } from '../types/prompt.types';
+import { runOptimization as runOptimizationService, type OptimizationResult } from '../services/optimization.service';
 
 // ============= Hook 选项类型 =============
 

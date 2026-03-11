@@ -3,7 +3,7 @@
  * 包含主处理函数和各环节调用顺序
  */
 
-import {
+import type {
   UserInput,
   SufficiencyOutput,
   PreAnalysisOutput,

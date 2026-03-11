@@ -3,7 +3,7 @@
  * 包含各环节的提示词模板和系统消息
  */
 
-import {
+import type {
   UserInput,
   SufficiencyOutput,
   PreAnalysisOutput,
