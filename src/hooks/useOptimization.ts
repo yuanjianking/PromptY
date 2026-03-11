@@ -14,8 +14,7 @@ import {
   LoadingState,
   ErrorState,
   CollapseState,
-  DEFAULT_USER_INPUT,
-  DEFAULT_MOCK_DATA
+  DEFAULT_USER_INPUT
 } from '../types/prompt.types';
 
 import { runOptimization as runOptimizationService, OptimizationResult } from '../services/optimization.service';
@@ -25,8 +24,6 @@ import { runOptimization as runOptimizationService, OptimizationResult } from '.
 export interface UseOptimizationOptions {
   /** 是否启用事后解释器 */
   enablePostAnalysis?: boolean;
-  /** 是否在开发环境使用模拟数据 */
-  useMockData?: boolean;
   /** 温度参数 */
   temperature?: number;
   /** 最大重试次数 */
@@ -78,9 +75,6 @@ export interface UseOptimizationReturn {
   clearResults: () => void;
   exportResults: () => OptimizationResult | null;
 
-  // 模拟数据（开发用）
-  loadMockData: () => void;
-
   // 状态检查
   isProcessing: boolean;
   hasResults: boolean;
@@ -94,7 +88,6 @@ export const useOptimization = (
 ): UseOptimizationReturn => {
   const {
     enablePostAnalysis = true,
-    useMockData = process.env.NODE_ENV === 'development',
     temperature = 0.7,
     maxRetries = 3,
     onProgress,
@@ -236,59 +229,6 @@ export const useOptimization = (
     setError({});
 
     try {
-      // 如果有模拟数据且处于开发环境
-      if (useMockData) {
-        setLoading({
-          sufficiency: true,
-          preAnalysis: true,
-          strategies: true,
-          metrics: true,
-          postAnalysis: enablePostAnalysis
-        });
-
-        // 模拟延迟
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-        setSufficiencyOutput(DEFAULT_MOCK_DATA.sufficiency);
-        setPreAnalysisOutput(DEFAULT_MOCK_DATA.preAnalysis);
-        setStrategiesOutput(DEFAULT_MOCK_DATA.strategies);
-        setMetricsOutput(DEFAULT_MOCK_DATA.metrics);
-        if (enablePostAnalysis) {
-          setPostAnalysisOutput(DEFAULT_MOCK_DATA.postAnalysis);
-        }
-
-        // 自动展开有结果的区域
-        setCollapse({
-          sufficiency: true,
-          preAnalysis: true,
-          strategies: true,
-          metrics: true,
-          postAnalysis: enablePostAnalysis
-        });
-
-        setLoading({
-          sufficiency: false,
-          preAnalysis: false,
-          strategies: false,
-          metrics: false,
-          postAnalysis: false
-        });
-
-        const result: OptimizationResult = {
-          sufficiency: DEFAULT_MOCK_DATA.sufficiency,
-          preAnalysis: DEFAULT_MOCK_DATA.preAnalysis,
-          strategies: DEFAULT_MOCK_DATA.strategies,
-          metrics: DEFAULT_MOCK_DATA.metrics,
-          postAnalysis: enablePostAnalysis ? DEFAULT_MOCK_DATA.postAnalysis : undefined,
-          success: true,
-          errors: undefined
-        };
-
-        onComplete?.(result);
-
-        return;
-      }
-
       // 实际调用API
       const result = await runOptimizationService(userInput, {
         enablePostAnalysis,
@@ -363,7 +303,6 @@ export const useOptimization = (
     enablePostAnalysis,
     temperature,
     maxRetries,
-    useMockData,
     isProcessing,
     cancelOptimization,
     onProgress,
@@ -460,30 +399,6 @@ export const useOptimization = (
     error
   ]);
 
-  /**
-   * 加载模拟数据（开发用）
-   */
-  const loadMockData = useCallback(() => {
-    if (process.env.NODE_ENV !== 'development') {
-      console.warn('loadMockData 只能在开发环境使用');
-      return;
-    }
-
-    setSufficiencyOutput(DEFAULT_MOCK_DATA.sufficiency);
-    setPreAnalysisOutput(DEFAULT_MOCK_DATA.preAnalysis);
-    setStrategiesOutput(DEFAULT_MOCK_DATA.strategies);
-    setMetricsOutput(DEFAULT_MOCK_DATA.metrics);
-    setPostAnalysisOutput(DEFAULT_MOCK_DATA.postAnalysis);
-
-    setCollapse({
-      sufficiency: true,
-      preAnalysis: true,
-      strategies: true,
-      metrics: true,
-      postAnalysis: true
-    });
-  }, []);
-
   // ============= 返回值 =============
 
   return {
@@ -515,9 +430,6 @@ export const useOptimization = (
     // 结果管理
     clearResults,
     exportResults,
-
-    // 模拟数据
-    loadMockData,
 
     // 状态检查
     isProcessing,

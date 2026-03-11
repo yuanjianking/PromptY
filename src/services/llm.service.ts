@@ -5,12 +5,11 @@
 
 import { LLMConfig, LLMRequestOptions, LLMStreamChunk } from '../types/prompt.types';
 
-
 // 默认配置（空，完全由页面传入）
 const DEFAULT_CONFIG: LLMConfig = {
   apiKey: '',
-  baseUrl: 'https://api.openai.com/v1/chat/completions',
-  model: 'gpt-3.5-turbo',
+  baseUrl: 'https://api.deepseek.com', // 修改为 DeepSeek 基础地址
+  model: 'deepseek-chat',
   temperature: 0.7,
   maxTokens: 2000
 };
@@ -69,8 +68,11 @@ export const callLLM = async <T>(
     throw new Error('请先在页面中输入API密钥');
   }
 
+  // DeepSeek 的完整 API 路径
+  const apiUrl = `${config.baseUrl}/chat/completions`;
+
   try {
-    const response = await fetch(config.baseUrl, {
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -92,7 +94,16 @@ export const callLLM = async <T>(
 
     if (!response.ok) {
       const errorData = await response.text();
-      throw new Error(`API请求失败: ${response.status}\n${errorData}`);
+      // 增强错误信息
+      throw new Error(
+        `API请求失败: ${response.status}\n` +
+        `URL: ${apiUrl}\n` +
+        `错误: ${errorData}\n` +
+        `请检查：\n` +
+        `1. API密钥是否正确\n` +
+        `2. 模型名称是否为 'deepseek-chat'\n` +
+        `3. 账户余额是否充足`
+      );
     }
 
     const data = await response.json() as OpenAIResponse;
@@ -164,8 +175,10 @@ export const callLLMStream = async (
     throw new Error('请先在页面中输入API密钥');
   }
 
+  const apiUrl = `${config.baseUrl}/chat/completions`;
+
   try {
-    const response = await fetch(config.baseUrl, {
+    const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -186,7 +199,8 @@ export const callLLMStream = async (
     });
 
     if (!response.ok) {
-      throw new Error(`API请求失败: ${response.status}`);
+      const errorData = await response.text();
+      throw new Error(`API请求失败: ${response.status}\n${errorData}`);
     }
 
     const reader = response.body?.getReader();
@@ -240,11 +254,30 @@ export const callLLMStream = async (
   }
 };
 
+/**
+ * 测试API连接
+ */
+export const testAPIConnection = async (): Promise<{ success: boolean; message: string }> => {
+  try {
+    await callLLM<string>('Hello', 'You are a test assistant. Reply with "OK" if you receive this message.', {
+      maxTokens: 10,
+      responseFormat: 'text'
+    });
+    return { success: true, message: '连接成功！' };
+  } catch (error) {
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : '连接失败'
+    };
+  }
+};
+
 export default {
   callLLM,
   callLLMWithRetry,
   callLLMStream,
   setAPIConfig,
   getAPIConfig,
-  clearAPIConfig
+  clearAPIConfig,
+  testAPIConnection
 };

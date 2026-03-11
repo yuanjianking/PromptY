@@ -29,7 +29,6 @@ export default function PromptOptimizationSession() {
 
     // 结果管理
     clearResults,
-    loadMockData,
 
     // 状态检查
     isProcessing,
@@ -57,19 +56,13 @@ export default function PromptOptimizationSession() {
     resetUserInput();
   };
 
-  const handleLoadMock = () => {
-    if (process.env.NODE_ENV === 'development') {
-      loadMockData();
-    }
-  };
-
   // 检查是否有任何加载中的环节
   const isLoadingAny = Object.values(loading).some(Boolean);
 
   const [apiConfig, setApiConfig] = useState({
-  apiKey: '',
-  baseUrl: 'https://api.openai.com/v1/chat/completions',
-  model: 'gpt-3.5-turbo'
+    apiKey: '',
+    baseUrl: 'https://api.deepseek.com', // 修改为 DeepSeek 基础地址
+    model: 'deepseek-chat',
   });
 
   const [showApiConfig, setShowApiConfig] = useState(false);
@@ -86,11 +79,6 @@ export default function PromptOptimizationSession() {
       <div className="workbench-header">
         <h1>Prompt 优化工作台</h1>
         <p className="header-sub">系统化分析 · 多策略生成 · 深度解释</p>
-        {process.env.NODE_ENV === 'development' && (
-          <button onClick={handleLoadMock} className="mock-btn" disabled={isProcessing}>
-            加载模拟数据
-          </button>
-        )}
       </div>
 
 
@@ -162,7 +150,7 @@ export default function PromptOptimizationSession() {
         <div className="section-grid">
           {/* 使用场景描述 */}
           <div className="section-group">
-            <h3>1. 使用场景描述 <span className="required">必须</span></h3>
+            <h3>1. 使用场景描述 </h3>
             <div className="field-with-label">
               <label>原始描述文本</label>
               <textarea
@@ -222,7 +210,7 @@ export default function PromptOptimizationSession() {
 
           {/* 原始 Prompt - 只保留文本输入 */}
           <div className="section-group">
-            <h3>2. 原始 Prompt <span className="optional">可选</span></h3>
+            <h3>2. 原始 Prompt </h3>
             <div className="field-with-label">
               <label>原始 Prompt 文本</label>
               <textarea
@@ -237,7 +225,7 @@ export default function PromptOptimizationSession() {
 
           {/* 目标模型 - 只保留基本信息 */}
           <div className="section-group">
-            <h3>3. 目标模型 <span className="required">必须</span></h3>
+            <h3>3. 目标模型 </h3>
             <div className="compact-row">
               <div className="field-with-label">
                 <label>模型提供方</label>
@@ -271,7 +259,7 @@ export default function PromptOptimizationSession() {
 
           {/* 约束条件 */}
           <div className="section-group">
-            <h3>4. 约束条件 <span className="optional">可选</span></h3>
+            <h3>4. 约束条件 </h3>
             <div className="field-with-label">
               <label>格式约束</label>
               <input
