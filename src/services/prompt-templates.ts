@@ -17,8 +17,8 @@ export const SYSTEM_MESSAGES = {
   sufficiency: '你是一个Prompt优化专家，专注于评估用户输入的信息完整性。请分析以下用户输入，输出严格的JSON格式评估结果，包括Prompt结构识别、模型能力画像等。',
   preAnalysis: '你是一个Prompt分析专家，擅长拆解任务、识别目标和预测风险。请基于用户输入和评估结果进行事前分析，输出JSON格式。',
   strategies: '你是一个Prompt工程专家，擅长设计不同风格的Prompt策略。请基于分析结果生成5种策略的Prompt，输出JSON格式。',
-  metrics: '你是一个质量评估专家，负责评估Prompt的质量和潜在问题。请分析并输出JSON格式的评估指标。',
-  postAnalysis: '你是一个解释分析专家，负责解释Prompt执行结果的偏差原因和改进方向。请输出JSON格式的分析结果。'
+  metrics: '你是一个质量评估专家，负责评估Prompt的质量和潜在问题。请为每个策略分别进行评估，输出JSON格式。',
+  postAnalysis: '你是一个解释分析专家，负责解释Prompt执行结果的偏差原因和改进方向。请为每个策略分别进行分析，输出JSON格式。'
 } as const;
 
 // ============= 工具函数 =============
@@ -88,11 +88,8 @@ ${formatUserInput(userInput)}
 评估指南：
 1. structure 字段需要基于用户提供的原始Prompt文本（userInput.originalPrompt.text）进行分析
 2. modelCapabilities 字段需要基于用户提供的模型信息（userInput.targetModel）进行专业评估
-   - 不同模型提供方和版本有不同的能力特征
-   - 例如：GPT-4 推理能力强，Claude 格式遵循能力强
 3. 所有级别字段必须使用：低、中低、中、中高、高 五个等级
 4. missingList 是字符串格式，每行一个缺失项，用\\n分隔
-5. allowGenerate 和 riskWarning 输出具体的文字描述
 `;
 };
 
@@ -203,15 +200,11 @@ ${safeStringify(preAnalysisResult)}
 }
 
 策略说明：
-1. 精确型：信息准确、结构清晰，适合需要严格遵循事实的场景
-2. 探索型：创意发挥、开放自由，适合需要创新的场景
-3. 强约束型：严格遵循框架，适合有明确格式要求的场景
-4. 分析型：逻辑推理、逐步推导，适合需要深度思考的场景
-5. 角色导向型：特定角色视角，适合需要专业视角的场景
-
-注意：
-1. 每个策略的prompt字段需要生成完整可用的Prompt文本
-2. 策略目标要清晰说明该策略的主要用途
+1. 精确型：信息准确、结构清晰
+2. 探索型：创意发挥、开放自由
+3. 强约束型：严格遵循框架
+4. 分析型：逻辑推理、逐步推导
+5. 角色导向型：特定角色视角
 `;
 };
 
@@ -223,7 +216,7 @@ export const getMetricsPrompt = (
   strategiesResult: StrategyOutput
 ): string => {
   return `
-评估Prompt的质量和潜在问题。
+评估5个策略Prompt的质量和潜在问题，为每个策略分别进行评估。
 
 用户输入：
 ${formatUserInput(userInput)}
@@ -231,19 +224,40 @@ ${formatUserInput(userInput)}
 事前分析：
 ${safeStringify(preAnalysisResult)}
 
-生成的策略：
+生成的5个策略：
 ${safeStringify(strategiesResult)}
 
-请输出JSON格式的评估指标：
+请为每个策略分别输出JSON格式的评估指标：
 
 {
-  "clarityLevel": "中",
-  "constraintLevel": "中",
-  "explorationConvergence": "0.6",
-  "riskProfile": "平衡风险策略，允许中等程度的创造性发挥",
-  "missingPoints": "缺失说明：目标受众画像不完整；潜在影响：输出内容可能与实际受众不匹配",
-  "modelSensitivePoints": "敏感点类型：创造性要求；影响的 Prompt 区段：行为指令段",
-  "deviationSignals": "偏差名称：输出泛化；触发条件：目标不明确时；早期预警信号：内容过于通用、缺乏针对性"
+  "strategyA": {
+    "clarityLevel": "中",
+    "constraintLevel": "中",
+    "explorationConvergence": "0.6",
+    "riskProfile": "平衡风险策略，允许中等程度的创造性发挥",
+    "missingPoints": "缺失说明：目标受众画像不完整；潜在影响：输出内容可能与实际受众不匹配",
+    "modelSensitivePoints": "敏感点类型：创造性要求；影响的 Prompt 区段：行为指令段",
+    "deviationSignals": "偏差名称：输出泛化；触发条件：目标不明确时；早期预警信号：内容过于通用、缺乏针对性"
+  },
+  "strategyB": {
+    // 策略B的评估指标，使用相同的字段
+    "clarityLevel": "中",
+    "constraintLevel": "中",
+    "explorationConvergence": "0.6",
+    "riskProfile": "策略B的风险偏好",
+    "missingPoints": "策略B的缺失说明",
+    "modelSensitivePoints": "策略B的敏感点",
+    "deviationSignals": "策略B的偏差信号"
+  },
+  "strategyC": {
+    // 策略C的评估指标
+  },
+  "strategyD": {
+    // 策略D的评估指标
+  },
+  "strategyE": {
+    // 策略E的评估指标
+  }
 }
 
 注意：
@@ -262,7 +276,7 @@ export const getPostAnalysisPrompt = (
   metricsResult: MetricsOutput
 ): string => {
   return `
-解释Prompt执行结果的偏差原因和改进方向。
+解释5个策略Prompt执行结果的偏差原因和改进方向，为每个策略分别解释。
 
 用户输入：
 ${formatUserInput(userInput)}
@@ -270,43 +284,54 @@ ${formatUserInput(userInput)}
 生成的策略：
 ${safeStringify(strategiesResult)}
 
-评估指标：
+策略的评估指标：
 ${safeStringify(metricsResult)}
 
-请输出JSON格式的分析结果：
+请为每个策略分别输出JSON格式的分析结果：
 
 {
-  "attribution": {
-    "primary": "Prompt模糊性",
-    "promptIssues": "目标描述不具体，缺乏成功标准",
-    "interactionIssues": "模型温度设置过高",
-    "userIssues": "未提供目标受众画像"
+  "strategyA": {
+    "attribution": {
+      "primary": "Prompt模糊性",
+      "promptIssues": "目标描述不具体，缺乏成功标准",
+      "interactionIssues": "模型温度设置过高",
+      "userIssues": "未提供目标受众画像"
+    },
+    "deviationTypes": {
+      "divergence": "部分",
+      "hallucination": "轻微",
+      "underperformance": "中",
+      "overConstraint": "无"
+    },
+    "improvements": {
+      "refineGoal": "明确点击率目标",
+      "adjustConstraint": "增加受众约束",
+      "reorderInstructions": "将关键指令前置",
+      "switchStrategy": "尝试精确型策略"
+    },
+    "comparison": {
+      "original": "写一段吸引人的文案",
+      "revised": "为18-25岁年轻用户写一段社交媒体文案，突出产品性价比，控制在100字以内",
+      "diff": "增加了受众、平台、核心卖点和长度约束"
+    }
   },
-  "deviationTypes": {
-    "divergence": "部分",
-    "hallucination": "轻微",
-    "underperformance": "中",
-    "overConstraint": "无"
+  "strategyB": {
+    // 策略B的解释，使用相同的结构
   },
-  "improvements": {
-    "refineGoal": "明确点击率目标",
-    "adjustConstraint": "增加受众约束",
-    "reorderInstructions": "将关键指令前置",
-    "switchStrategy": "尝试精确型策略"
+  "strategyC": {
+    // 策略C的解释
   },
-  "comparison": {
-    "original": "写一段吸引人的文案",
-    "revised": "为18-25岁年轻用户写一段社交媒体文案，突出产品性价比，控制在100字以内",
-    "diff": "增加了受众、平台、核心卖点和长度约束"
+  "strategyD": {
+    // 策略D的解释
+  },
+  "strategyE": {
+    // 策略E的解释
   }
 }
 
 注意：
 1. deviationTypes 中的值必须使用：低/中/高/轻微/部分/无 六个等级
-2. attribution 字段分析偏差的主要原因
-3. improvements 字段提供具体的改进方向
-4. comparison 字段展示修改前后的对比
-5. 所有字段都是字符串格式
+2. 每个策略都需要独立分析
 `;
 };
 

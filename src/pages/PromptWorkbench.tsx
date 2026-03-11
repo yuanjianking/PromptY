@@ -738,7 +738,7 @@ export default function PromptOptimizationSession() {
         </section>
       )}
 
-      {/* 五、指标与问题说明 */}
+      {/* 五、指标与问题说明 - 为每个策略分别显示 */}
       {metricsOutput && (
         <section className="card">
           <div className="card-title collapsible" onClick={() => toggleCollapse('metrics')}>
@@ -751,56 +751,177 @@ export default function PromptOptimizationSession() {
           </div>
 
           {collapse.metrics && (
-            <>
-              <h3 className="section-subtitle">核心指标</h3>
-              <div className="metrics-grid">
+            <div className="strategy-grid">
+              {/* 策略A的指标 */}
+              <div className="strategy-card">
+                <h4>⚡ 策略A：精确型 - 指标评估</h4>
                 <div className="field-with-label">
                   <label>目标清晰度等级</label>
-                  <input value={metricsOutput.clarityLevel} readOnly className="output-input" />
+                  <input value={metricsOutput.strategyA.clarityLevel} readOnly className="output-input" />
                 </div>
                 <div className="field-with-label">
                   <label>约束强度等级</label>
-                  <input value={metricsOutput.constraintLevel} readOnly className="output-input" />
+                  <input value={metricsOutput.strategyA.constraintLevel} readOnly className="output-input" />
                 </div>
                 <div className="field-with-label">
                   <label>探索-收敛位置</label>
-                  <input value={metricsOutput.explorationConvergence} readOnly className="output-input" />
+                  <input value={metricsOutput.strategyA.explorationConvergence} readOnly className="output-input" />
                 </div>
-                <div className="field-with-label span-2">
+                <div className="field-with-label">
                   <label>风险偏好摘要</label>
-                  <textarea rows={2} value={metricsOutput.riskProfile} readOnly className="output-input" />
+                  <textarea rows={2} value={metricsOutput.strategyA.riskProfile} readOnly className="output-input" />
                 </div>
-              </div>
-
-              <h3 className="section-subtitle">已识别信息缺失点</h3>
-              <div className="metrics-grid">
-                <div className="field-with-label span-2">
+                <div className="field-with-label">
                   <label>缺失说明｜潜在影响</label>
-                  <textarea rows={2} value={metricsOutput.missingPoints} readOnly className="output-input" />
+                  <textarea rows={2} value={metricsOutput.strategyA.missingPoints} readOnly className="output-input" />
                 </div>
-              </div>
-
-              <h3 className="section-subtitle">模型敏感点</h3>
-              <div className="metrics-grid">
-                <div className="field-with-label span-2">
+                <div className="field-with-label">
                   <label>敏感点类型｜影响的 Prompt 区段</label>
-                  <textarea rows={2} value={metricsOutput.modelSensitivePoints} readOnly className="output-input" />
+                  <textarea rows={2} value={metricsOutput.strategyA.modelSensitivePoints} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>偏差名称｜触发条件｜早期预警信号</label>
+                  <textarea rows={2} value={metricsOutput.strategyA.deviationSignals} readOnly className="output-input" />
                 </div>
               </div>
 
-              <h3 className="section-subtitle">可能偏差类型</h3>
-              <div className="metrics-grid">
-                <div className="field-with-label span-2">
+              {/* 策略B的指标 */}
+              <div className="strategy-card">
+                <h4>🌀 策略B：探索型 - 指标评估</h4>
+                <div className="field-with-label">
+                  <label>目标清晰度等级</label>
+                  <input value={metricsOutput.strategyB.clarityLevel} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>约束强度等级</label>
+                  <input value={metricsOutput.strategyB.constraintLevel} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>探索-收敛位置</label>
+                  <input value={metricsOutput.strategyB.explorationConvergence} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>风险偏好摘要</label>
+                  <textarea rows={2} value={metricsOutput.strategyB.riskProfile} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>缺失说明｜潜在影响</label>
+                  <textarea rows={2} value={metricsOutput.strategyB.missingPoints} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>敏感点类型｜影响的 Prompt 区段</label>
+                  <textarea rows={2} value={metricsOutput.strategyB.modelSensitivePoints} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
                   <label>偏差名称｜触发条件｜早期预警信号</label>
-                  <textarea rows={2} value={metricsOutput.deviationSignals} readOnly className="output-input" />
+                  <textarea rows={2} value={metricsOutput.strategyB.deviationSignals} readOnly className="output-input" />
                 </div>
               </div>
-            </>
+
+              {/* 策略C的指标 */}
+              <div className="strategy-card">
+                <h4>🔒 策略C：强约束型 - 指标评估</h4>
+                <div className="field-with-label">
+                  <label>目标清晰度等级</label>
+                  <input value={metricsOutput.strategyC.clarityLevel} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>约束强度等级</label>
+                  <input value={metricsOutput.strategyC.constraintLevel} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>探索-收敛位置</label>
+                  <input value={metricsOutput.strategyC.explorationConvergence} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>风险偏好摘要</label>
+                  <textarea rows={2} value={metricsOutput.strategyC.riskProfile} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>缺失说明｜潜在影响</label>
+                  <textarea rows={2} value={metricsOutput.strategyC.missingPoints} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>敏感点类型｜影响的 Prompt 区段</label>
+                  <textarea rows={2} value={metricsOutput.strategyC.modelSensitivePoints} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>偏差名称｜触发条件｜早期预警信号</label>
+                  <textarea rows={2} value={metricsOutput.strategyC.deviationSignals} readOnly className="output-input" />
+                </div>
+              </div>
+
+              {/* 策略D的指标 */}
+              <div className="strategy-card">
+                <h4>📊 策略D：分析型 - 指标评估</h4>
+                <div className="field-with-label">
+                  <label>目标清晰度等级</label>
+                  <input value={metricsOutput.strategyD.clarityLevel} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>约束强度等级</label>
+                  <input value={metricsOutput.strategyD.constraintLevel} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>探索-收敛位置</label>
+                  <input value={metricsOutput.strategyD.explorationConvergence} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>风险偏好摘要</label>
+                  <textarea rows={2} value={metricsOutput.strategyD.riskProfile} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>缺失说明｜潜在影响</label>
+                  <textarea rows={2} value={metricsOutput.strategyD.missingPoints} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>敏感点类型｜影响的 Prompt 区段</label>
+                  <textarea rows={2} value={metricsOutput.strategyD.modelSensitivePoints} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>偏差名称｜触发条件｜早期预警信号</label>
+                  <textarea rows={2} value={metricsOutput.strategyD.deviationSignals} readOnly className="output-input" />
+                </div>
+              </div>
+
+              {/* 策略E的指标 */}
+              <div className="strategy-card optional-card">
+                <h4>🎭 策略E：角色导向型 - 指标评估</h4>
+                <div className="field-with-label">
+                  <label>目标清晰度等级</label>
+                  <input value={metricsOutput.strategyE.clarityLevel} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>约束强度等级</label>
+                  <input value={metricsOutput.strategyE.constraintLevel} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>探索-收敛位置</label>
+                  <input value={metricsOutput.strategyE.explorationConvergence} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>风险偏好摘要</label>
+                  <textarea rows={2} value={metricsOutput.strategyE.riskProfile} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>缺失说明｜潜在影响</label>
+                  <textarea rows={2} value={metricsOutput.strategyE.missingPoints} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>敏感点类型｜影响的 Prompt 区段</label>
+                  <textarea rows={2} value={metricsOutput.strategyE.modelSensitivePoints} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>偏差名称｜触发条件｜早期预警信号</label>
+                  <textarea rows={2} value={metricsOutput.strategyE.deviationSignals} readOnly className="output-input" />
+                </div>
+              </div>
+            </div>
           )}
         </section>
       )}
 
-      {/* 六、事后解释器 */}
+      {/* 六、事后解释器 - 为每个策略分别解释 */}
       {postAnalysisOutput && (
         <section className="card">
           <div className="card-title collapsible" onClick={() => toggleCollapse('postAnalysis')}>
@@ -813,86 +934,364 @@ export default function PromptOptimizationSession() {
           </div>
 
           {collapse.postAnalysis && (
-            <div className="post-analysis-main-grid">
-              {/* 左侧列 */}
-              <div>
-                <h3 className="section-subtitle">偏差归因</h3>
-                <div className="post-analysis-attribution-grid">
-                  <div className="field-with-label">
-                    <label>主要原因类别</label>
-                    <input value={postAnalysisOutput.attribution.primary} readOnly className="output-input" />
-                  </div>
-                  <div className="field-with-label">
-                    <label>Prompt 层问题</label>
-                    <textarea rows={2} value={postAnalysisOutput.attribution.promptIssues} readOnly className="output-input" />
-                  </div>
-                  <div className="field-with-label">
-                    <label>模型交互问题</label>
-                    <textarea rows={2} value={postAnalysisOutput.attribution.interactionIssues} readOnly className="output-input" />
-                  </div>
-                  <div className="field-with-label">
-                    <label>用户输入问题</label>
-                    <textarea rows={2} value={postAnalysisOutput.attribution.userIssues} readOnly className="output-input" />
-                  </div>
+            <div className="strategy-grid">
+              {/* 策略A的解释 */}
+              <div className="strategy-card">
+                <h4>⚡ 策略A：精确型 - 事后解释</h4>
+                <h5>偏差归因</h5>
+                <div className="field-with-label">
+                  <label>主要原因类别</label>
+                  <input value={postAnalysisOutput.strategyA.attribution.primary} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>Prompt 层问题</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyA.attribution.promptIssues} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>模型交互问题</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyA.attribution.interactionIssues} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>用户输入问题</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyA.attribution.userIssues} readOnly className="output-input" />
                 </div>
 
-                <h3 className="section-subtitle" style={{ marginTop: '28px' }}>偏差类型</h3>
-                <div className="post-analysis-inner-grid">
-                  <div className="field-with-label">
-                    <label>输出发散</label>
-                    <input value={postAnalysisOutput.deviationTypes.divergence} readOnly className="output-input" />
-                  </div>
-                  <div className="field-with-label">
-                    <label>幻觉生成</label>
-                    <input value={postAnalysisOutput.deviationTypes.hallucination} readOnly className="output-input" />
-                  </div>
-                  <div className="field-with-label">
-                    <label>表现不足</label>
-                    <input value={postAnalysisOutput.deviationTypes.underperformance} readOnly className="output-input" />
-                  </div>
-                  <div className="field-with-label">
-                    <label>过度约束</label>
-                    <input value={postAnalysisOutput.deviationTypes.overConstraint} readOnly className="output-input" />
-                  </div>
+                <h5>偏差类型</h5>
+                <div className="field-with-label">
+                  <label>输出发散</label>
+                  <input value={postAnalysisOutput.strategyA.deviationTypes.divergence} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>幻觉生成</label>
+                  <input value={postAnalysisOutput.strategyA.deviationTypes.hallucination} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>表现不足</label>
+                  <input value={postAnalysisOutput.strategyA.deviationTypes.underperformance} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>过度约束</label>
+                  <input value={postAnalysisOutput.strategyA.deviationTypes.overConstraint} readOnly className="output-input" />
+                </div>
+
+                <h5>改进方向</h5>
+                <div className="field-with-label">
+                  <label>目标细化</label>
+                  <input value={postAnalysisOutput.strategyA.improvements.refineGoal} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>约束调整</label>
+                  <input value={postAnalysisOutput.strategyA.improvements.adjustConstraint} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>指令重排</label>
+                  <input value={postAnalysisOutput.strategyA.improvements.reorderInstructions} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>策略切换</label>
+                  <input value={postAnalysisOutput.strategyA.improvements.switchStrategy} readOnly className="output-input" />
+                </div>
+
+                <h5>对照解释</h5>
+                <div className="field-with-label">
+                  <label>原 Prompt 片段</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyA.comparison.original} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>修订后 Prompt 片段</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyA.comparison.revised} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>修改差异说明</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyA.comparison.diff} readOnly className="output-input" />
                 </div>
               </div>
 
-              {/* 右侧列 */}
-              <div>
-                <h3 className="section-subtitle">改进方向</h3>
-                <div className="post-analysis-inner-grid">
-                  <div className="field-with-label">
-                    <label>目标细化</label>
-                    <input value={postAnalysisOutput.improvements.refineGoal} readOnly className="output-input" />
-                  </div>
-                  <div className="field-with-label">
-                    <label>约束调整</label>
-                    <input value={postAnalysisOutput.improvements.adjustConstraint} readOnly className="output-input" />
-                  </div>
-                  <div className="field-with-label">
-                    <label>指令重排</label>
-                    <input value={postAnalysisOutput.improvements.reorderInstructions} readOnly className="output-input" />
-                  </div>
-                  <div className="field-with-label">
-                    <label>策略切换</label>
-                    <input value={postAnalysisOutput.improvements.switchStrategy} readOnly className="output-input" />
-                  </div>
+              {/* 策略B的解释 */}
+              <div className="strategy-card">
+                <h4>🌀 策略B：探索型 - 事后解释</h4>
+                <h5>偏差归因</h5>
+                <div className="field-with-label">
+                  <label>主要原因类别</label>
+                  <input value={postAnalysisOutput.strategyB?.attribution?.primary || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>Prompt 层问题</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyB?.attribution?.promptIssues || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>模型交互问题</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyB?.attribution?.interactionIssues || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>用户输入问题</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyB?.attribution?.userIssues || ''} readOnly className="output-input" />
                 </div>
 
-                <h3 className="section-subtitle" style={{ marginTop: '28px' }}>对照解释</h3>
-                <div className="post-analysis-comparison-grid">
-                  <div className="field-with-label">
-                    <label>原 Prompt 片段</label>
-                    <textarea rows={2} value={postAnalysisOutput.comparison.original} readOnly className="output-input" />
-                  </div>
-                  <div className="field-with-label">
-                    <label>修订后 Prompt 片段</label>
-                    <textarea rows={2} value={postAnalysisOutput.comparison.revised} readOnly className="output-input" />
-                  </div>
-                  <div className="field-with-label">
-                    <label>修改差异说明</label>
-                    <textarea rows={2} value={postAnalysisOutput.comparison.diff} readOnly className="output-input" />
-                  </div>
+                <h5>偏差类型</h5>
+                <div className="field-with-label">
+                  <label>输出发散</label>
+                  <input value={postAnalysisOutput.strategyB?.deviationTypes?.divergence || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>幻觉生成</label>
+                  <input value={postAnalysisOutput.strategyB?.deviationTypes?.hallucination || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>表现不足</label>
+                  <input value={postAnalysisOutput.strategyB?.deviationTypes?.underperformance || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>过度约束</label>
+                  <input value={postAnalysisOutput.strategyB?.deviationTypes?.overConstraint || ''} readOnly className="output-input" />
+                </div>
+
+                <h5>改进方向</h5>
+                <div className="field-with-label">
+                  <label>目标细化</label>
+                  <input value={postAnalysisOutput.strategyB?.improvements?.refineGoal || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>约束调整</label>
+                  <input value={postAnalysisOutput.strategyB?.improvements?.adjustConstraint || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>指令重排</label>
+                  <input value={postAnalysisOutput.strategyB?.improvements?.reorderInstructions || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>策略切换</label>
+                  <input value={postAnalysisOutput.strategyB?.improvements?.switchStrategy || ''} readOnly className="output-input" />
+                </div>
+
+                <h5>对照解释</h5>
+                <div className="field-with-label">
+                  <label>原 Prompt 片段</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyB?.comparison?.original || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>修订后 Prompt 片段</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyB?.comparison?.revised || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>修改差异说明</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyB?.comparison?.diff || ''} readOnly className="output-input" />
+                </div>
+              </div>
+
+              {/* 策略C的解释 */}
+              <div className="strategy-card">
+                <h4>🔒 策略C：强约束型 - 事后解释</h4>
+                <h5>偏差归因</h5>
+                <div className="field-with-label">
+                  <label>主要原因类别</label>
+                  <input value={postAnalysisOutput.strategyC?.attribution?.primary || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>Prompt 层问题</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyC?.attribution?.promptIssues || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>模型交互问题</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyC?.attribution?.interactionIssues || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>用户输入问题</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyC?.attribution?.userIssues || ''} readOnly className="output-input" />
+                </div>
+
+                <h5>偏差类型</h5>
+                <div className="field-with-label">
+                  <label>输出发散</label>
+                  <input value={postAnalysisOutput.strategyC?.deviationTypes?.divergence || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>幻觉生成</label>
+                  <input value={postAnalysisOutput.strategyC?.deviationTypes?.hallucination || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>表现不足</label>
+                  <input value={postAnalysisOutput.strategyC?.deviationTypes?.underperformance || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>过度约束</label>
+                  <input value={postAnalysisOutput.strategyC?.deviationTypes?.overConstraint || ''} readOnly className="output-input" />
+                </div>
+
+                <h5>改进方向</h5>
+                <div className="field-with-label">
+                  <label>目标细化</label>
+                  <input value={postAnalysisOutput.strategyC?.improvements?.refineGoal || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>约束调整</label>
+                  <input value={postAnalysisOutput.strategyC?.improvements?.adjustConstraint || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>指令重排</label>
+                  <input value={postAnalysisOutput.strategyC?.improvements?.reorderInstructions || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>策略切换</label>
+                  <input value={postAnalysisOutput.strategyC?.improvements?.switchStrategy || ''} readOnly className="output-input" />
+                </div>
+
+                <h5>对照解释</h5>
+                <div className="field-with-label">
+                  <label>原 Prompt 片段</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyC?.comparison?.original || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>修订后 Prompt 片段</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyC?.comparison?.revised || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>修改差异说明</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyC?.comparison?.diff || ''} readOnly className="output-input" />
+                </div>
+              </div>
+
+              {/* 策略D的解释 */}
+              <div className="strategy-card">
+                <h4>📊 策略D：分析型 - 事后解释</h4>
+                <h5>偏差归因</h5>
+                <div className="field-with-label">
+                  <label>主要原因类别</label>
+                  <input value={postAnalysisOutput.strategyD?.attribution?.primary || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>Prompt 层问题</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyD?.attribution?.promptIssues || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>模型交互问题</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyD?.attribution?.interactionIssues || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>用户输入问题</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyD?.attribution?.userIssues || ''} readOnly className="output-input" />
+                </div>
+
+                <h5>偏差类型</h5>
+                <div className="field-with-label">
+                  <label>输出发散</label>
+                  <input value={postAnalysisOutput.strategyD?.deviationTypes?.divergence || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>幻觉生成</label>
+                  <input value={postAnalysisOutput.strategyD?.deviationTypes?.hallucination || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>表现不足</label>
+                  <input value={postAnalysisOutput.strategyD?.deviationTypes?.underperformance || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>过度约束</label>
+                  <input value={postAnalysisOutput.strategyD?.deviationTypes?.overConstraint || ''} readOnly className="output-input" />
+                </div>
+
+                <h5>改进方向</h5>
+                <div className="field-with-label">
+                  <label>目标细化</label>
+                  <input value={postAnalysisOutput.strategyD?.improvements?.refineGoal || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>约束调整</label>
+                  <input value={postAnalysisOutput.strategyD?.improvements?.adjustConstraint || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>指令重排</label>
+                  <input value={postAnalysisOutput.strategyD?.improvements?.reorderInstructions || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>策略切换</label>
+                  <input value={postAnalysisOutput.strategyD?.improvements?.switchStrategy || ''} readOnly className="output-input" />
+                </div>
+
+                <h5>对照解释</h5>
+                <div className="field-with-label">
+                  <label>原 Prompt 片段</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyD?.comparison?.original || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>修订后 Prompt 片段</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyD?.comparison?.revised || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>修改差异说明</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyD?.comparison?.diff || ''} readOnly className="output-input" />
+                </div>
+              </div>
+
+              {/* 策略E的解释 */}
+              <div className="strategy-card optional-card">
+                <h4>🎭 策略E：角色导向型 - 事后解释</h4>
+                <h5>偏差归因</h5>
+                <div className="field-with-label">
+                  <label>主要原因类别</label>
+                  <input value={postAnalysisOutput.strategyE?.attribution?.primary || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>Prompt 层问题</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyE?.attribution?.promptIssues || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>模型交互问题</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyE?.attribution?.interactionIssues || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>用户输入问题</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyE?.attribution?.userIssues || ''} readOnly className="output-input" />
+                </div>
+
+                <h5>偏差类型</h5>
+                <div className="field-with-label">
+                  <label>输出发散</label>
+                  <input value={postAnalysisOutput.strategyE?.deviationTypes?.divergence || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>幻觉生成</label>
+                  <input value={postAnalysisOutput.strategyE?.deviationTypes?.hallucination || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>表现不足</label>
+                  <input value={postAnalysisOutput.strategyE?.deviationTypes?.underperformance || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>过度约束</label>
+                  <input value={postAnalysisOutput.strategyE?.deviationTypes?.overConstraint || ''} readOnly className="output-input" />
+                </div>
+
+                <h5>改进方向</h5>
+                <div className="field-with-label">
+                  <label>目标细化</label>
+                  <input value={postAnalysisOutput.strategyE?.improvements?.refineGoal || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>约束调整</label>
+                  <input value={postAnalysisOutput.strategyE?.improvements?.adjustConstraint || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>指令重排</label>
+                  <input value={postAnalysisOutput.strategyE?.improvements?.reorderInstructions || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>策略切换</label>
+                  <input value={postAnalysisOutput.strategyE?.improvements?.switchStrategy || ''} readOnly className="output-input" />
+                </div>
+
+                <h5>对照解释</h5>
+                <div className="field-with-label">
+                  <label>原 Prompt 片段</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyE?.comparison?.original || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>修订后 Prompt 片段</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyE?.comparison?.revised || ''} readOnly className="output-input" />
+                </div>
+                <div className="field-with-label">
+                  <label>修改差异说明</label>
+                  <textarea rows={2} value={postAnalysisOutput.strategyE?.comparison?.diff || ''} readOnly className="output-input" />
                 </div>
               </div>
             </div>
